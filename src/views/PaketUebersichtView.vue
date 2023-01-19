@@ -14,7 +14,7 @@
             hide-details
         ></v-text-field>
       </v-card-title>
-      <v-data-table v-if="showTable" id="virtual-scroll-table" item-key="id" :headers="headers" :items="items"
+      <v-data-table id="virtual-scroll-table" item-key="id" :headers="headers" :items="items"
                     :search="search" disable-pagination
                     hide-default-footer @click:row="selectRow" single-select>
         <template v-slot:[`item.thema`]="props">
@@ -23,6 +23,58 @@
             <template v-slot:input>
               <v-text-field
                   v-model="props.item.thema"
+                  label="Edit"
+                  single-line
+                  counter
+              ></v-text-field>
+            </template>
+          </v-edit-dialog>
+        </template>
+        <template v-slot:[`item.beschreibung`]="props">
+          <v-edit-dialog :return-value.sync="props.item.beschreibung">
+            {{ props.item.beschreibung }}
+            <template v-slot:input>
+              <v-text-field
+                  v-model="props.item.beschreibung"
+                  label="Edit"
+                  single-line
+                  counter
+              ></v-text-field>
+            </template>
+          </v-edit-dialog>
+        </template>
+        <template v-slot:[`item.ticket_nr`]="props">
+          <v-edit-dialog :return-value.sync="props.item.ticket_nr">
+            {{ props.item.ticket_nr }}
+            <template v-slot:input>
+              <v-text-field
+                  v-model="props.item.ticket_nr"
+                  label="Edit"
+                  single-line
+                  counter
+              ></v-text-field>
+            </template>
+          </v-edit-dialog>
+        </template>
+        <template v-slot:[`item.komponente`]="props">
+          <v-edit-dialog :return-value.sync="props.item.komponente">
+            {{ props.item.komponente }}
+            <template v-slot:input>
+              <v-text-field
+                  v-model="props.item.komponente"
+                  label="Edit"
+                  single-line
+                  counter
+              ></v-text-field>
+            </template>
+          </v-edit-dialog>
+        </template>
+        <template v-slot:[`item.schaetzung`]="props">
+          <v-edit-dialog :return-value.sync="props.item.schaetzung">
+            {{ props.item.schaetzung }}
+            <template v-slot:input>
+              <v-text-field
+                  v-model="props.item.schaetzung"
                   label="Edit"
                   single-line
                   counter
@@ -58,7 +110,6 @@ export default {
   data() {
     return {
       selectedItem: -1,
-      showTable: true,
       search: '',
       headers: [
         {
@@ -97,10 +148,7 @@ export default {
     selectRow(item, row) {
       this.selectedItem = item.id
       row.select()
-    },
-    close() {
-      console.log('Dialog closed')
-    },
+    }
   }
 }
 </script>
