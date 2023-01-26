@@ -5,6 +5,7 @@ import BucketUebersichtView from "@/views/BucketUebersichtView.vue";
 import PaketUebersichtView from "@/views/PaketUebersichtView.vue";
 import ProjektkalkulationView from "@/views/ProjektkalkulationView.vue";
 import ProjektUebersichtView from "@/views/ProjektUebersichtView.vue";
+import testView from "@/views/testView.vue";
 
 const routes = [
   {
@@ -35,6 +36,11 @@ const routes = [
     path: '/kalkulation',
     name: 'kalkulation',
     component: ProjektkalkulationView
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: testView
   },
 ]
 const router = new VueRouter({
