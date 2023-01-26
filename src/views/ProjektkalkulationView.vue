@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-data-table :headers="headers" :items="items" item-key="id" @click:row="selectRow"
-                  single-select hide-default-footer></v-data-table>
+                  single-select hide-default-footer fixed-header height="500"></v-data-table>
     <v-btn @click="zwischensummeErstellen">Zwischensumme erstellen</v-btn>
     <v-btn>Zeile entfernen</v-btn>
     <v-dialog max-width="10%" v-model="dialog_createAufschlag">
