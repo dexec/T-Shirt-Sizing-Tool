@@ -1,43 +1,130 @@
 <template>
-  <div class="d-flex">
-    <v-simple-table v-for="selectedBuckedId in selected" :key="selected.indexOf(selectedBuckedId)" class="mr-4"
-                    style="width: 30%">
-      <tr>
-        <th colspan="2">
-          {{ buckets.find(bucket => bucket.id === selectedBuckedId).name }}
-        </th>
-      </tr>
-      <tr v-for="ticket in tickets.filter(ticket => ticket.bucket===buckets.find(bucket => bucket.id === selectedBuckedId).name)"
-          :key="ticket.id">
-        <td>{{ ticket.id }}</td>
-        <td>{{ ticket.thema }}</td>
-      </tr>
-    </v-simple-table>
-    <div>
-      <v-checkbox v-for="bucket in buckets" :key="bucket.id" v-model="selected" :value="bucket.id"
-                :label=bucket.name>
-    </v-checkbox>
-    </div>
-  </div>
+  <ag-grid-vue
+      style="width: 100%; height: 100%;"
+      class="ag-theme-alpine"
+      :columnDefs="columnDefs"
+      @grid-ready="onGridReady"
+      :defaultColDef="defaultColDef"
+      :rowSelection="rowSelection"
+      :rowData="rowData"></ag-grid-vue>
 </template>
 
 <script>
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
+import { AgGridVue } from "ag-grid-vue";
 export default {
   name: "testView",
   data() {
     return {
-      selected: [0, 1, 2, 3, 4],
+      columnDefs: [
+        { field: 'athlete', minWidth: 150 },
+        { field: 'age', maxWidth: 90 },
+        { field: 'country', minWidth: 150 },
+        { field: 'year', maxWidth: 90 },
+        { field: 'date', minWidth: 150 },
+        { field: 'sport', minWidth: 150 },
+        { field: 'gold' },
+        { field: 'silver' },
+        { field: 'bronze' },
+        { field: 'total' },
+      ],
+      gridApi: null,
+      columnApi: null,
+      defaultColDef: {
+        flex: 1,
+        minWidth: 100,
+      },
+      rowSelection: null,
+      rowData: null,
+    };
+  },
+  components: {
+    AgGridVue,
+  },
+  created() {
+    this.rowSelection = 'multiple';
+  },
+  methods: {
+    onGridReady(params) {
+      this.gridApi = params.api;
+
+      const updateData = (data) => params.api.setRowData(data);
+
+      fetch('https://www.ag-grid.com/example-assets/olympic-winners.json')
+          .then((resp) => resp.json())
+          .then((data) => updateData(data));
+    },
+  },
+}
+/*export default {
+  name: "testView",
+  data() {
+    return {
+      visible: false,
+      newBucketName: '',
+      alleBucketsBerarbeitenModus: false,
+      currentSelectedBucket: '',
+      currentEditBucket: '',
       buckets: [{id: 0, name: 'XS'}, {id: 1, name: 'S'}, {id: 2, name: 'M'}, {id: 3, name: 'L'}, {id: 4, name: 'XL'}],
       tickets: [{id: 0, thema: 'UI erstellen', bucket: 'S'}, {id: 1, thema: 'Suchfunktion', bucket: 'XS'}, {
         id: 2,
         thema: 'Migration',
         bucket: 'M'
-      }]
+      }],
+    }
+  },
+  methods: {
+    editBucket() {
+      if (this.newBucketName !== '') this.buckets[this.buckets.map(bucket => bucket.name).indexOf(this.currentEditBucket)].name = this.newBucketName
+      this.newBucketName = ''
+      this.currentSelectedBucket = ''
+      this.currentEditBucket = ''
+    },
+    loeschenBucket() {
+      this.buckets.splice(this.buckets.map(bucket => bucket.name).indexOf(this.currentSelectedBucket), 1)
+      this.currentSelectedBucket = ''
+      for (let i = 0; i < this.buckets.length; i++) {
+        this.buckets[i].id = i
+      }
+    },
+    speichernBuckets() {
+      this.clearData()
+      this.$store.commit('updateAllBuckets', this.buckets)
+    },
+    abbrechen() {
+      this.clearData()
+      for (let i = 0; i < this.buckets.length; i++) {
+        this.buckets[i] = JSON.parse(JSON.stringify(this.buckets[i]))
+      }
+    },
+    clearData() {
+      this.alleBucketsBerarbeitenModus = false
+      this.newBucketName = ''
+      this.currentSelectedBucket = ''
+      this.currentEditBucket = ''
+    }
+  },
+  computed: {
+    file() {
+      return this.$store.state.file
     }
   }
-}
+}*/
 </script>
 
 <style>
+.bucket {
+  border: 1px solid black;
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 100px;
+}
 
+.invisible {
+  visibility: hidden;
+}
 </style>
