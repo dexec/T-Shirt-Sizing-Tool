@@ -1,0 +1,107 @@
+{
+  "buckets":[
+    {
+      "id": 0,
+      "name": "XS"
+    },
+    {
+      "id": 1,
+      "name": "S"
+    },
+    {
+      "id": 2,
+      "name": "M"
+    },
+    {
+      "id": 3,
+      "name": "L"
+    },
+    {
+      "id": 4,
+      "name": "XL"
+    }
+  ],
+  "packete": [
+    {
+      "id": 0,
+      "thema": "UI erstellen",
+      "beschreibung": "Es soll eine UI erstellt werden",
+      "ticket_nr": "123",
+      "komponente": "A",
+      "bucket": "S",
+      "schaetzung": 321
+    },
+    {
+      "id": 1,
+      "thema": "Entwicklung eines Log-In-Systems",
+      "beschreibung": "Es soll ein Log-In System für Nutzer und Manager entwickelt werden",
+      "ticket_nr": "ANP-50",
+      "komponente": "Komp-A",
+      "bucket": null,
+      "schaetzung": null
+    },
+    {
+      "id": 2,
+      "thema": "Implementieren",
+      "beschreibung": "Implementieren, auf Basis der UI und des Prototypen",
+      "ticket_nr": "P-5",
+      "komponente": "Komp-B",
+      "bucket": "XS",
+      "schaetzung": null
+    },
+    {
+      "id": 3,
+      "thema": "Dokumentieren",
+      "beschreibung": "Implementierung vollständig dokumentieren, um später den Code nachvollziehen zu können",
+      "ticket_nr": "F-20",
+      "komponente": "Komp-C",
+      "bucket": "M",
+      "schaetzung": null
+    },
+    {
+      "id": 4,
+      "thema": "Einen Prototypen bauen",
+      "beschreibung": "Einen Protoypen bauen, um den Testern eine klickbare Oberfläche zu bieten",
+      "ticket_nr": "A-2",
+      "komponente": "Komp-A",
+      "bucket": "XL",
+      "schaetzung": 500
+    },
+    {
+      "id": 5,
+      "thema": "Versionierung aufstellen",
+      "beschreibung": "Eine Git-Verwaltung soll aufgesetzt werden, um eine Versionierung des Codes zu ermöglichen",
+      "ticket_nr": "C-99",
+      "komponente": "Komp-AB",
+      "bucket": "L",
+      "schaetzung": 350
+    },
+    {
+      "id": 6,
+      "thema": "Use-Cases definieren",
+      "beschreibung": "Es sollen Funktionen bestimmt werden, die von dem System erfüllt werden müssen",
+      "ticket_nr": "D-90",
+      "komponente": "Komp-ABC",
+      "bucket": "M",
+      "schaetzung": 150
+    },
+    {
+      "id": 7,
+      "thema": "Testen",
+      "beschreibung": "Es soll eine Testarchitektur entwickelt werden",
+      "ticket_nr": "AD-970",
+      "komponente": "Komp-F",
+      "bucket": "S",
+      "schaetzung": null
+    },
+    {
+      "id": 8,
+      "thema": "Lizenzen einkaufen",
+      "beschreibung": "Lizenzen zur Entwicklung für das ganze Team einkaufen",
+      "ticket_nr": "PN-50",
+      "komponente": "Komp-E",
+      "bucket": null,
+      "schaetzung": null
+    }
+  ]
+}
