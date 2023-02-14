@@ -6,6 +6,7 @@ import PaketUebersichtView from "@/views/PaketUebersichtView.vue";
 import ProjektkalkulationView from "@/views/ProjektkalkulationView.vue";
 import ProjektUebersichtView from "@/views/ProjektUebersichtView.vue";
 import testView from "@/views/testView.vue";
+import testView2 from "@/views/testView2.vue";
 
 const routes = [
   {
@@ -41,6 +42,11 @@ const routes = [
     path: '/test',
     name: 'test',
     component: testView
+  },
+  {
+    path: '/test2',
+    name: 'test2',
+    component: testView2
   },
 ]
 const router = new VueRouter({
