@@ -1,62 +1,100 @@
 <template>
-  <ag-grid-vue
-      style="width: 100%; height: 100%;"
-      class="ag-theme-alpine"
-      :columnDefs="columnDefs"
-      @grid-ready="onGridReady"
-      :defaultColDef="defaultColDef"
-      :rowSelection="rowSelection"
-      :rowData="rowData"></ag-grid-vue>
+  <div style="height: 100%">
+    <ag-grid-vue
+        style="width: 100%; height: 100%;"
+        class="ag-theme-alpine"
+        :columnDefs="columnDefs"
+        @grid-ready="onGridReady"
+        @cell-double-clicked="onCellDoubleClicked"
+        @cell-key-down="onCellKeyDown"
+        :autoGroupColumnDef="autoGroupColumnDef"
+        :defaultColDef="defaultColDef"
+        :groupDefaultExpanded="groupDefaultExpanded"
+        :animateRows="true"
+        :rowData="rowData"></ag-grid-vue>
+  </div>
+  <!--  <ag-grid-vue
+        style="width: 100%; height: 100%;"
+        class="ag-theme-alpine"
+        :columnDefs="columnDefs"
+        @grid-ready="onGridReady"
+        :defaultColDef="defaultColDef"
+        :rowSelection="rowSelection"
+        :rowData="rowData"></ag-grid-vue>-->
+
 </template>
 
 <script>
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import { AgGridVue } from "ag-grid-vue";
+import {AgGridVue} from "ag-grid-vue";
+import CustomGroupCellRenderer from "@/components/CustomGroupCellRenderer.vue";
+
 export default {
   name: "testView",
   data() {
     return {
       columnDefs: [
-        { field: 'athlete', minWidth: 150 },
-        { field: 'age', maxWidth: 90 },
-        { field: 'country', minWidth: 150 },
-        { field: 'year', maxWidth: 90 },
-        { field: 'date', minWidth: 150 },
-        { field: 'sport', minWidth: 150 },
-        { field: 'gold' },
-        { field: 'silver' },
-        { field: 'bronze' },
-        { field: 'total' },
+        {field: 'country', rowGroup: true, hide: true},
+        {field: 'year', rowGroup: true, hide: true},
+        {field: 'athlete'},
+        {field: 'total', aggFunc: 'sum'},
       ],
       gridApi: null,
       columnApi: null,
       defaultColDef: {
         flex: 1,
-        minWidth: 100,
+        minWidth: 120,
+        resizable: true,
       },
-      rowSelection: null,
+      autoGroupColumnDef: null,
+      groupDefaultExpanded: null,
       rowData: null,
     };
   },
   components: {
-    AgGridVue,
+    'ag-grid-vue': AgGridVue,
+    // eslint-disable-next-line vue/no-unused-components
+    CustomGroupCellRenderer,
   },
   created() {
-    this.rowSelection = 'multiple';
+    this.autoGroupColumnDef = {
+      cellRenderer: 'CustomGroupCellRenderer',
+    };
+    this.groupDefaultExpanded = 1;
   },
   methods: {
     onGridReady(params) {
       this.gridApi = params.api;
+      this.gridColumnApi = params.columnApi;
 
       const updateData = (data) => params.api.setRowData(data);
 
-      fetch('https://www.ag-grid.com/example-assets/olympic-winners.json')
+      fetch('https://www.ag-grid.com/example-assets/small-olympic-winners.json')
           .then((resp) => resp.json())
           .then((data) => updateData(data));
     },
+    onCellDoubleClicked: (params) => {
+      if (params.colDef.showRowGroup) {
+        params.node.setExpanded(!params.node.expanded);
+      }
+    },
+    onCellKeyDown: (params) => {
+      if (!('colDef' in params)) {
+        return;
+      }
+      if (!(params.event instanceof KeyboardEvent)) {
+        return;
+      }
+      if (params.event.code !== 'Enter') {
+        return;
+      }
+      if (params.colDef.showRowGroup) {
+        params.node.setExpanded(!params.node.expanded);
+      }
+    },
   },
-}
+};
 /*export default {
   name: "testView",
   data() {
