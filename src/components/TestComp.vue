@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <v-btn @click="alertClick(value)">click</v-btn>
-    {{this.params.value}}
+  <div v-if="Array.isArray(this.params.data.child_ids)&&this.params.data.child_ids.length">
+    <v-btn @click="changeOpenState">
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
+    {{ this.params.data.id }}
   </div>
 </template>
 
@@ -11,7 +13,8 @@ export default {
   data() {
     return {
       value: '',
-      params: null
+      params: null,
+      items: null
     }
   },
   name: "TestComp",
@@ -20,8 +23,12 @@ export default {
 
   },
   methods: {
-    alertClick(v) {
-      console.log(v)
+    changeOpenState() {
+      for (let child_id of this.params.node.data.child_ids) {
+        this.params.items.find(node => node.id === child_id).visible = true
+      }
+      const updated = this.params.node.data;
+      this.params.node.updateData(updated)
     }
   }
 }

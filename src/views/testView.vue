@@ -5,13 +5,10 @@
         class="ag-theme-alpine"
         :columnDefs="columnDefs"
         @grid-ready="onGridReady"
-        @cell-double-clicked="onCellDoubleClicked"
-        @cell-key-down="onCellKeyDown"
-        :autoGroupColumnDef="autoGroupColumnDef"
         :defaultColDef="defaultColDef"
-        :groupDefaultExpanded="groupDefaultExpanded"
         :animateRows="true"
         :rowData="rowData"></ag-grid-vue>
+    <v-btn @click="changeName">Change</v-btn>
   </div>
   <!--  <ag-grid-vue
         style="width: 100%; height: 100%;"
@@ -28,17 +25,22 @@
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import {AgGridVue} from "ag-grid-vue";
-import CustomGroupCellRenderer from "@/components/CustomGroupCellRenderer.vue";
 
 export default {
   name: "testView",
   data() {
     return {
       columnDefs: [
-        {field: 'country', rowGroup: true, hide: true},
-        {field: 'year', rowGroup: true, hide: true},
+        {field: 'country'},
+        {field: 'year'},
         {field: 'athlete'},
-        {field: 'total', aggFunc: 'sum'},
+      ],
+      rowData: [
+        {
+          country: 'Germany',
+          year: 1998,
+          athlete: 'Daniel'
+        }
       ],
       gridApi: null,
       columnApi: null,
@@ -47,52 +49,22 @@ export default {
         minWidth: 120,
         resizable: true,
       },
-      autoGroupColumnDef: null,
-      groupDefaultExpanded: null,
-      rowData: null,
     };
   },
   components: {
-    'ag-grid-vue': AgGridVue,
-    // eslint-disable-next-line vue/no-unused-components
-    CustomGroupCellRenderer,
-  },
-  created() {
-    this.autoGroupColumnDef = {
-      cellRenderer: 'CustomGroupCellRenderer',
-    };
-    this.groupDefaultExpanded = 1;
+    'ag-grid-vue': AgGridVue
   },
   methods: {
     onGridReady(params) {
       this.gridApi = params.api;
       this.gridColumnApi = params.columnApi;
-
-      const updateData = (data) => params.api.setRowData(data);
-
-      fetch('https://www.ag-grid.com/example-assets/small-olympic-winners.json')
-          .then((resp) => resp.json())
-          .then((data) => updateData(data));
     },
-    onCellDoubleClicked: (params) => {
-      if (params.colDef.showRowGroup) {
-        params.node.setExpanded(!params.node.expanded);
-      }
-    },
-    onCellKeyDown: (params) => {
-      if (!('colDef' in params)) {
-        return;
-      }
-      if (!(params.event instanceof KeyboardEvent)) {
-        return;
-      }
-      if (params.event.code !== 'Enter') {
-        return;
-      }
-      if (params.colDef.showRowGroup) {
-        params.node.setExpanded(!params.node.expanded);
-      }
-    },
+    changeName() {
+      const id = undefined
+      this.gridApi.forEachNode((node) => {
+        node.updateData({...node.data, id})
+      })
+    }
   },
 };
 /*export default {
