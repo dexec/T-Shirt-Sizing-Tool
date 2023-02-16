@@ -59,7 +59,7 @@
               </v-hover>
               <v-hover v-else v-slot="{hover}">
                 <v-card :class="{'on-hover':hover}" class="bucket">
-                  <v-text-field v-model="newBucketName"  @blur="editBucket" autofocus></v-text-field>
+                  <v-text-field v-model="newBucketName" @blur="editBucket" autofocus></v-text-field>
                 </v-card>
               </v-hover>
             </v-col>
@@ -104,7 +104,7 @@ export default {
   },
   methods: {
     func(bucket) {
-      if (bucket.id === this.currentSelectedBucket) return ""
+      if (bucket.id === this.currentSelectedBucket && this.currentEditBucket===-1) return ""
       else return "visibility: hidden"
     },
     addNewBucketBefore(bucket) {
