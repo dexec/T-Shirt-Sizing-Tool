@@ -1,5 +1,5 @@
 <template>
-  <div v-if="Array.isArray(this.params.data.child_ids)&&this.params.data.child_ids.length">
+  <div v-if="Array.isArray(this.params.data.children)&&this.params.data.children.length">
     <v-btn @click="changeOpenState">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
@@ -13,8 +13,7 @@ export default {
   data() {
     return {
       value: '',
-      params: null,
-      items: null
+      params: null
     }
   },
   name: "TestComp",
@@ -24,7 +23,7 @@ export default {
   },
   methods: {
     changeOpenState() {
-      for (let child_id of this.params.node.data.child_ids) {
+      for (let child_id of this.params.node.data.children) {
         this.params.items.find(node => node.id === child_id).visible = true
       }
       const updated = this.params.node.data;
