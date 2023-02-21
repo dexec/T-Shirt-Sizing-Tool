@@ -4,7 +4,7 @@
         style="width: 100%; height: 100%"
         class="ag-theme-alpine"
         :columnDefs="columnDefs"
-        :rowData="rowData.filter(node => node.visible)"
+        :rowData="rowData"
         :defaultColDef="defaultColDef"
         :getRowId="getRowId"
         @grid-ready="onGridReady"></ag-grid-vue>
@@ -12,6 +12,8 @@
 </template>
 
 <script>
+
+import { computed } from 'vue'
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import {AgGridVue} from "ag-grid-vue";
@@ -24,6 +26,7 @@ export default {
       getRowId: null,
       gridApi: null,
       columnApi: null,
+      rowData: null,
       defaultColDef: {
         sortable: true,
         filter: true,
@@ -36,7 +39,7 @@ export default {
           minWidth: 5,
           cellRenderer: 'TestComp',
           cellRendererParams: {
-            items: this.rowData
+            items: null
           }
         },
         {
@@ -67,92 +70,22 @@ export default {
       ]
     }
   },
-  setup() {
-    const rowData = [
-      {
-        id: '0',
-        ticket_nr: '123',
-        thema: 'UI erstellen',
-        beschreibung: 'Es soll eine UI erstellt werden',
-        komponente: 'A',
-        bucket: 'S',
-        schaetzung: '321',
-        parent_id: '-1',
-        child_ids: ['2'],
-        visible: true,
-        collapsed: true
-      },
-      {
-        id: '1',
-        ticket_nr: '123',
-        thema: 'UI erstellen',
-        beschreibung: 'Es soll eine UI erstellt werden',
-        komponente: 'A',
-        bucket: 'S',
-        schaetzung: '321',
-        parent_id: '-1',
-        child_ids: ['4', '5'],
-        visible: true,
-        collapsed: true
-      },
-      {
-        id: '2',
-        ticket_nr: '123',
-        thema: 'UI erstellen',
-        beschreibung: 'Es soll eine UI erstellt werden',
-        komponente: 'A',
-        bucket: 'S',
-        schaetzung: '321',
-        parent_id: '0',
-        child_ids: ['3'],
-        visible: false,
-        collapsed: true
-      },
-      {
-        id: '3',
-        ticket_nr: '123',
-        thema: 'UI erstellen',
-        beschreibung: 'Es soll eine UI erstellt werden',
-        komponente: 'A',
-        bucket: 'S',
-        schaetzung: '321',
-        parent_id: '2',
-        child_ids: [],
-        visible: false,
-        collapsed: true
-      },
-      {
-        id: '4',
-        ticket_nr: '123',
-        thema: 'UI erstellen',
-        beschreibung: 'Es soll eine UI erstellt werden',
-        komponente: 'A',
-        bucket: 'S',
-        schaetzung: '321',
-        parent_id: '1',
-        child_ids: [],
-        visible: false,
-        collapsed: true
-      },
-      {
-        id: '5',
-        ticket_nr: '123',
-        thema: 'UI erstellen',
-        beschreibung: 'Es soll eine UI erstellt werden',
-        komponente: 'A',
-        bucket: 'S',
-        schaetzung: '321',
-        parent_id: '1',
-        child_ids: [],
-        visible: false,
-        collapsed: true
-      }]
-    return {
-      rowData
+  computed: {
+    paketeAsList() {
+      return this.$store.getters.asList
     }
+  },
+  setup() {
+    this.rowData = []
+  },
+  beforeCreate() {
+
   },
   created() {
     this.getRowId = (params) => params.data.id
+  },
+  mounted() {
+    //this.rowData = this.paketeAsList
   },
   components: {
     AgGridVue,
